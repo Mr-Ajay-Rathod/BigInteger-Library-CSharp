@@ -241,13 +241,3 @@ Run the test suite with:
 dotnet run
 ```
 
-## Original C++ Library Attribution
-
-This library is a migration of the BigInteger Library created by Roshan Gupta (16-10-2020).
-Original repository: https://github.com/roshanr1990/BigInteger-Library-Project
-
-MIT License - See LICENSE file for details
-
-## C# Migration
-
-Migrated to C# maintaining full feature parity with the original C++ implementation.
