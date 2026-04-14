@@ -1,8 +1,6 @@
 # BigInt Library - C# Migration
 
-This is a complete migration of the C++ BigInteger Library to C#. The library provides arbitrary precision arithmetic operations for integers of any size.
-
-## Project Structure
+This project implements a BigInteger library in C# that supports arbitrary-precision arithmetic for integers of any size. It enables accurate and efficient computation beyond the limits of built-in numeric types, with support for operations such as addition, subtraction, multiplication, division, and modular arithmetic. The library is designed for performance, reliability, and ease of integration into .NET applications.
 
 - `BigInt.cs` - Main BigInt class with all operations and utility functions
 - `Program.cs` - Test suite demonstrating the library usage
@@ -142,6 +140,14 @@ if (BigInt.IsPalindrome(palindrome))
     Console.WriteLine("12321 is a palindrome");
 }
 ```
+
+## Live Test Cases : 
+
+<img width="1042" height="752" alt="image" src="https://github.com/user-attachments/assets/3d006594-b4b1-436e-a2f1-fa36d71b95a1" />
+<img width="952" height="701" alt="image" src="https://github.com/user-attachments/assets/3092f43b-2a60-4035-a9f0-9d5087789cbd" />
+<img width="1107" height="275" alt="image" src="https://github.com/user-attachments/assets/8aa20a8e-61aa-48bc-8526-3cbedd56fbed" />
+
+
 
 ## Building and Running
 
