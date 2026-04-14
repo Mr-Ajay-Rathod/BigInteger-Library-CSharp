@@ -1,4 +1,4 @@
-# BigInt Library - C# Migration
+# BigInt Library in C# 
 
 This project implements a BigInteger library in C# that supports arbitrary-precision arithmetic for integers of any size. It enables accurate and efficient computation beyond the limits of built-in numeric types, with support for operations such as addition, subtraction, multiplication, division, and modular arithmetic. The library is designed for performance, reliability, and ease of integration into .NET applications.
 
