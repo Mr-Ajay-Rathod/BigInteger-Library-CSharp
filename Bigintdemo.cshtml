@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<!-- BigInt Library Demonstration - C# Based UI Implementation -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive demonstration of BigInt Library in C# - Arbitrary-precision integer arithmetic operations">
+    <meta name="keywords" content="BigInt, C#, arbitrary precision, integer arithmetic, demonstration">
+    <title>BigInt Library Demonstration</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #007acc;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        header p {
+            margin: 10px 0 0 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        h2 {
+            color: #007acc;
+            border-bottom: 2px solid #007acc;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #007acc;
+            box-shadow: 0 0 5px rgba(0, 122, 204, 0.3);
+        }
+        button {
+            background-color: #007acc;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #005a9e;
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+        .result {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #e8f4fd;
+            border-left: 4px solid #007acc;
+            font-weight: bold;
+            word-wrap: break-word;
+        }
+        .comparison-result {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .operation {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s;
+        }
+        .operation:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .operation h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .operation input {
+            margin-bottom: 10px;
+        }
+        .operation button {
+            width: 100%;
+            margin-right: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 20px 15px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            header p {
+                font-size: 1em;
+            }
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            .section {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .operation {
+                padding: 12px;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+            .result {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            .section {
+                padding: 10px;
+            }
+            input[type="text"] {
+                padding: 10px;
+                font-size: 14px;
+            }
+            button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>BigInt Library Demonstration</h1>
+        <p>Arbitrary-Precision Integer Arithmetic in C#</p>
+    </header>
+    <div class="container">
+        <div class="section">
+            <h2>Arithmetic Operations</h2>
+            <div class="input-group">
+                <label for="arith-a">First Number (a):</label>
+                <input type="text" id="arith-a" placeholder="Enter first number">
+            </div>
+            <div class="input-group">
+                <label for="arith-b">Second Number (b):</label>
+                <input type="text" id="arith-b" placeholder="Enter second number">
+            </div>
+            <button onclick="performArithmetic('+')">Addition (a + b)</button>
+            <button onclick="performArithmetic('-')">Subtraction (a - b)</button>
+            <button onclick="performArithmetic('*')">Multiplication (a * b)</button>
+            <button onclick="performArithmetic('/')">Division (a / b)</button>
+            <button onclick="performArithmetic('%')">Modulus (a % b)</button>
+            <div id="arith-result" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h2>Comparison Operations</h2>
+            <div class="input-group">
+                <label for="comp-a">First Number (a):</label>
+                <input type="text" id="comp-a" placeholder="Enter first number">
+            </div>
+            <div class="input-group">
+                <label for="comp-b">Second Number (b):</label>
+                <input type="text" id="comp-b" placeholder="Enter second number">
+            </div>
+            <button onclick="performComparisons()">Compare</button>
+            <div id="comp-result" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h2>Increment/Decrement</h2>
+            <div class="input-group">
+                <label for="inc-dec-num">Number:</label>
+                <input type="text" id="inc-dec-num" placeholder="Enter number">
+            </div>
+            <button onclick="performIncrement()">Increment (++num)</button>
+            <button onclick="performDecrement()">Decrement (--num)</button>
+            <div id="inc-dec-result" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h2>Utility Functions</h2>
+            <div class="grid">
+                <div class="operation">
+                    <h3>Absolute Value</h3>
+                    <input type="text" id="abs-num" placeholder="Enter number">
+                    <button onclick="performAbs()">Abs</button>
+                    <div id="abs-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Power</h3>
+                    <input type="text" id="pow-base" placeholder="Base">
+                    <input type="text" id="pow-exp" placeholder="Exponent">
+                    <button onclick="performPow()">Pow</button>
+                    <div id="pow-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Square Root</h3>
+                    <input type="text" id="sqrt-num" placeholder="Enter number">
+                    <button onclick="performSqrt()">Sqrt</button>
+                    <div id="sqrt-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Logarithm Base 2</h3>
+                    <input type="text" id="log2-num" placeholder="Enter number">
+                    <button onclick="performLog2()">Log2</button>
+                    <div id="log2-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Logarithm Base 10</h3>
+                    <input type="text" id="log10-num" placeholder="Enter number">
+                    <button onclick="performLog10()">Log10</button>
+                    <div id="log10-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Logarithm with Custom Base</h3>
+                    <input type="text" id="log-base-num" placeholder="Number">
+                    <input type="text" id="log-base" placeholder="Base">
+                    <button onclick="performLogWithBase()">LogWithBase</button>
+                    <div id="log-base-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Antilog Base 2</h3>
+                    <input type="text" id="antilog2-num" placeholder="Exponent">
+                    <button onclick="performAntilog2()">Antilog2</button>
+                    <div id="antilog2-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Antilog Base 10</h3>
+                    <input type="text" id="antilog10-num" placeholder="Exponent">
+                    <button onclick="performAntilog10()">Antilog10</button>
+                    <div id="antilog10-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>GCD</h3>
+                    <input type="text" id="gcd-a" placeholder="First number">
+                    <input type="text" id="gcd-b" placeholder="Second number">
+                    <button onclick="performGCD()">GCD</button>
+                    <div id="gcd-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>LCM</h3>
+                    <input type="text" id="lcm-a" placeholder="First number">
+                    <input type="text" id="lcm-b" placeholder="Second number">
+                    <button onclick="performLCM()">LCM</button>
+                    <div id="lcm-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Factorial</h3>
+                    <input type="text" id="fact-num" placeholder="Enter number">
+                    <button onclick="performFactorial()">Factorial</button>
+                    <div id="fact-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Reverse</h3>
+                    <input type="text" id="rev-num" placeholder="Enter number">
+                    <button onclick="performReverse()">Reverse</button>
+                    <div id="rev-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Max</h3>
+                    <input type="text" id="max-a" placeholder="First number">
+                    <input type="text" id="max-b" placeholder="Second number">
+                    <button onclick="performMax()">Max</button>
+                    <div id="max-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Min</h3>
+                    <input type="text" id="min-a" placeholder="First number">
+                    <input type="text" id="min-b" placeholder="Second number">
+                    <button onclick="performMin()">Min</button>
+                    <div id="min-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Is Palindrome</h3>
+                    <input type="text" id="pal-num" placeholder="Enter number">
+                    <button onclick="performIsPalindrome()">Check Palindrome</button>
+                    <div id="pal-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Is Prime</h3>
+                    <input type="text" id="prime-num" placeholder="Enter number">
+                    <button onclick="performIsPrime()">Check Prime</button>
+                    <div id="prime-result" class="result"></div>
+                </div>
+                <div class="operation">
+                    <h3>Swap</h3>
+                    <input type="text" id="swap-a" placeholder="First number">
+                    <input type="text" id="swap-b" placeholder="Second number">
+                    <button onclick="performSwap()">Swap</button>
+                    <div id="swap-result" class="result"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getBigInt(value) {
+            try {
+                return BigInt(value);
+            } catch (e) {
+                alert('Invalid number: ' + value);
+                return null;
+            }
+        }
+
+        function performArithmetic(op) {
+            const a = getBigInt(document.getElementById('arith-a').value);
+            const b = getBigInt(document.getElementById('arith-b').value);
+            if (a === null || b === null) return;
+
+            let result;
+            switch (op) {
+                case '+': result = a + b; break;
+                case '-': result = a - b; break;
+                case '*': result = a * b; break;
+                case '/': 
+                    if (b === 0n) {
+                        document.getElementById('arith-result').innerText = 'Error: Division by zero';
+                        return;
+                    }
+                    result = a / b; 
+                    break;
+                case '%': 
+                    if (b === 0n) {
+                        document.getElementById('arith-result').innerText = 'Error: Modulus by zero';
+                        return;
+                    }
+                    result = a % b; 
+                    break;
+            }
+            document.getElementById('arith-result').innerText = `Result: ${result}`;
+        }
+
+        function performComparisons() {
+            const a = getBigInt(document.getElementById('comp-a').value);
+            const b = getBigInt(document.getElementById('comp-b').value);
+            if (a === null || b === null) return;
+
+            const results = [
+                `a > b: ${a > b}`,
+                `a < b: ${a < b}`,
+                `a >= b: ${a >= b}`,
+                `a <= b: ${a <= b}`,
+                `a == b: ${a === b}`,
+                `a != b: ${a !== b}`
+            ];
+            document.getElementById('comp-result').innerHTML = results.join('<br>');
+        }
+
+        function performIncrement() {
+            let num = getBigInt(document.getElementById('inc-dec-num').value);
+            if (num === null) return;
+            num++;
+            document.getElementById('inc-dec-result').innerText = `Incremented: ${num}`;
+        }
+
+        function performDecrement() {
+            let num = getBigInt(document.getElementById('inc-dec-num').value);
+            if (num === null) return;
+            num--;
+            document.getElementById('inc-dec-result').innerText = `Decremented: ${num}`;
+        }
+
+        function performAbs() {
+            const num = getBigInt(document.getElementById('abs-num').value);
+            if (num === null) return;
+            const result = num < 0n ? -num : num;
+            document.getElementById('abs-result').innerText = `Abs: ${result}`;
+        }
+
+        function performPow() {
+            const base = getBigInt(document.getElementById('pow-base').value);
+            const exp = getBigInt(document.getElementById('pow-exp').value);
+            if (base === null || exp === null) return;
+            if (exp < 0n) {
+                document.getElementById('pow-result').innerText = 'Error: Negative exponent not supported';
+                return;
+            }
+            const result = base ** exp;
+            document.getElementById('pow-result').innerText = `Pow: ${result}`;
+        }
+
+        function performSqrt() {
+            const num = getBigInt(document.getElementById('sqrt-num').value);
+            if (num === null) return;
+            if (num < 0n) {
+                document.getElementById('sqrt-result').innerText = 'Error: Square root of negative number';
+                return;
+            }
+            // Simple binary search for square root
+            let low = 0n;
+            let high = num;
+            while (low <= high) {
+                const mid = (low + high) / 2n;
+                if (mid * mid <= num && (mid + 1n) * (mid + 1n) > num) {
+                    document.getElementById('sqrt-result').innerText = `Sqrt: ${mid}`;
+                    return;
+                } else if (mid * mid < num) {
+                    low = mid + 1n;
+                } else {
+                    high = mid - 1n;
+                }
+            }
+        }
+
+        function performLog2() {
+            const num = getBigInt(document.getElementById('log2-num').value);
+            if (num === null) return;
+            if (num <= 0n) {
+                document.getElementById('log2-result').innerText = 'Error: Log of non-positive number';
+                return;
+            }
+            const result = Math.floor(Math.log2(Number(num)));
+            document.getElementById('log2-result').innerText = `Log2: ${result}`;
+        }
+
+        function performLog10() {
+            const num = getBigInt(document.getElementById('log10-num').value);
+            if (num === null) return;
+            if (num <= 0n) {
+                document.getElementById('log10-result').innerText = 'Error: Log of non-positive number';
+                return;
+            }
+            const result = Math.floor(Math.log10(Number(num)));
+            document.getElementById('log10-result').innerText = `Log10: ${result}`;
+        }
+
+        function performLogWithBase() {
+            const num = getBigInt(document.getElementById('log-base-num').value);
+            const base = getBigInt(document.getElementById('log-base').value);
+            if (num === null || base === null) return;
+            if (num <= 0n || base <= 1n) {
+                document.getElementById('log-base-result').innerText = 'Error: Invalid input';
+                return;
+            }
+            const result = Math.floor(Math.log(Number(num)) / Math.log(Number(base)));
+            document.getElementById('log-base-result').innerText = `LogWithBase: ${result}`;
+        }
+
+        function performAntilog2() {
+            const num = getBigInt(document.getElementById('antilog2-num').value);
+            if (num === null) return;
+            const result = 2n ** num;
+            document.getElementById('antilog2-result').innerText = `Antilog2: ${result}`;
+        }
+
+        function performAntilog10() {
+            const num = getBigInt(document.getElementById('antilog10-num').value);
+            if (num === null) return;
+            const result = 10n ** num;
+            document.getElementById('antilog10-result').innerText = `Antilog10: ${result}`;
+        }
+
+        function performGCD() {
+            const a = getBigInt(document.getElementById('gcd-a').value);
+            const b = getBigInt(document.getElementById('gcd-b').value);
+            if (a === null || b === null) return;
+            const result = gcd(a, b);
+            document.getElementById('gcd-result').innerText = `GCD: ${result}`;
+        }
+
+        function gcd(a, b) {
+            while (b !== 0n) {
+                const t = b;
+                b = a % b;
+                a = t;
+            }
+            return a;
+        }
+
+        function performLCM() {
+            const a = getBigInt(document.getElementById('lcm-a').value);
+            const b = getBigInt(document.getElementById('lcm-b').value);
+            if (a === null || b === null) return;
+            const result = (a * b) / gcd(a, b);
+            document.getElementById('lcm-result').innerText = `LCM: ${result}`;
+        }
+
+        function performFactorial() {
+            const num = getBigInt(document.getElementById('fact-num').value);
+            if (num === null) return;
+            if (num < 0n) {
+                document.getElementById('fact-result').innerText = 'Error: Factorial of negative number';
+                return;
+            }
+            let result = 1n;
+            for (let i = 2n; i <= num; i++) {
+                result *= i;
+            }
+            document.getElementById('fact-result').innerText = `Factorial: ${result}`;
+        }
+
+        function performReverse() {
+            const num = document.getElementById('rev-num').value;
+            const reversed = num.split('').reverse().join('');
+            document.getElementById('rev-result').innerText = `Reverse: ${reversed}`;
+        }
+
+        function performMax() {
+            const a = getBigInt(document.getElementById('max-a').value);
+            const b = getBigInt(document.getElementById('max-b').value);
+            if (a === null || b === null) return;
+            const result = a > b ? a : b;
+            document.getElementById('max-result').innerText = `Max: ${result}`;
+        }
+
+        function performMin() {
+            const a = getBigInt(document.getElementById('min-a').value);
+            const b = getBigInt(document.getElementById('min-b').value);
+            if (a === null || b === null) return;
+            const result = a < b ? a : b;
+            document.getElementById('min-result').innerText = `Min: ${result}`;
+        }
+
+        function performIsPalindrome() {
+            const num = document.getElementById('pal-num').value;
+            const reversed = num.split('').reverse().join('');
+            const result = num === reversed;
+            document.getElementById('pal-result').innerText = `Is Palindrome: ${result}`;
+        }
+
+        function performIsPrime() {
+            const num = getBigInt(document.getElementById('prime-num').value);
+            if (num === null) return;
+            if (num < 2n) {
+                document.getElementById('prime-result').innerText = 'Is Prime: false';
+                return;
+            }
+            for (let i = 2n; i * i <= num; i++) {
+                if (num % i === 0n) {
+                    document.getElementById('prime-result').innerText = 'Is Prime: false';
+                    return;
+                }
+            }
+            document.getElementById('prime-result').innerText = 'Is Prime: true';
+        }
+
+        function performSwap() {
+            const a = document.getElementById('swap-a').value;
+            const b = document.getElementById('swap-b').value;
+            document.getElementById('swap-result').innerText = `Swapped: a=${b}, b=${a}`;
+        }
+    </script>
+    <footer style="position: fixed; bottom: 0; left: 0; right: 0; text-align: center; padding: 10px; background-color: rgba(255, 255, 255, 0.9); color: #666; font-size: 12px; border-top: 1px solid #ddd; backdrop-filter: blur(5px);">
+        © 2026 Ajay Rathod - BigInt Library Demonstration
+    </footer>
+</body>
+</html>
